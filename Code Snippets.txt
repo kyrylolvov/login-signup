@@ -1,0 +1,37 @@
+axios
+  .post("http://142.93.134.108:1111/sign_up", {
+    email: "kyrylolvov@outlook.com",
+    password: "qwerty123",
+  })
+  .then((res) => {
+    console.log(res.data.message);
+  });
+
+
+
+
+axios
+  .post(
+    "http://142.93.134.108:1111/login?email=kyrylolvov@outlook.com&password=qwerty123",
+    {
+      params: { email: "kyrylolvov@outlook.com", password: "qwerty123" },
+    }
+  )
+  .then((res) => {
+    console.log(res);
+  });
+
+
+
+axios
+  .get("http://142.93.134.108:1111/me", {
+    headers: {
+      Authorization:
+        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNTI2IiwibmFtZSI6ImFjY2Vzc190b2tlbiIsImV4cCI6MTYyNDcyODI5MX0.d84DfnNxSmOe8beDGoXXpumPR1JRxZdYAd_vMxeAUE8",
+    },
+  })
+  .then((res) => {
+    console.log(res);
+  });
+
+ReactDOM.render(<App />, document.querySelector("#root"));
