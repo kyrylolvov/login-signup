@@ -8,7 +8,6 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("Enter your credentials to log in");
   const [loggedIn, setLoggedIn] = useState(false);
-  const [tokenMessage, setTokenMessage] = useState("");
 
   const submitSignUp = (event) => {
     event.preventDefault();
@@ -20,41 +19,25 @@ const SignUp = () => {
         }
       )
       .then((res) => {
-        console.log(res);
-        if (res.status === 200) {
-          setMessage("Logged in successfully");
-          setLoggedIn(true);
-          axios
-            .get("http://142.93.134.108:1111/me", {
-              headers: {
-                Authorization: `Bearer ${res.data.body.access_token}`,
-              },
-            })
-            .then((res) => {
-              setTokenMessage(res.data.body.message);
-            });
+        if (res.data.code === 1012) {
+          setMessage("Password is wrong");
         } else {
-          setLoggedIn(false);
+          setLoggedIn(true);
+          localStorage.setItem("accessToken", res.data.body.access_token);
+          localStorage.setItem("refreshToken", res.data.body.refresh_token);
+          //   localStorage.setItem("accessToken" res.body);
         }
       });
   };
 
   if (loggedIn === true) {
-    setTimeout(function () {}, 1000);
-    return (
-      <Redirect
-        to={{
-          pathname: "/me",
-          tokenMessage,
-        }}
-      />
-    );
+    return <Redirect to="/me" />;
   }
 
   return (
     <div className="login">
       <form className="login__form">
-        <h1>Log In ✌</h1>
+        <h1>Log in to your account ✌</h1>
         <input
           type="email"
           placeholder="Email"
@@ -71,7 +54,7 @@ const SignUp = () => {
           Log In
         </button>
         <p className="form__message">
-          {message}, <Link to="/">proceed to signup page</Link>
+          {message}, <Link to="/signup">proceed to signup page</Link>
         </p>
       </form>
     </div>
