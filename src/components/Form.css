@@ -48,6 +48,11 @@
   margin-top: 10px;
 }
 
+.page__message {
+  color: #8d0ada;
+  text-transform: capitalize;
+}
+
 body {
   background: rgb(236, 236, 236);
 }
