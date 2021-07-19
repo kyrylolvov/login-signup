@@ -1,37 +1,26 @@
-import axios from "axios";
 import React from "react";
+import { connect } from "react-redux";
+import { handleFetchData } from "../actions";
 
 class Me extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      pageMessage: "Loading data, please wait...",
-    };
-  }
-
   componentDidMount() {
-    setTimeout(() => {
-      axios
-        .get("http://142.93.134.108:1111/me", {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("accessToken"),
-          },
-        })
-        .then((res) => {
-          this.setState({
-            pageMessage: res.data.body.message,
-          });
-        });
-    }, 1000);
+    this.props.handleFetchData(
+      localStorage.getItem("accessToken"),
+      localStorage.getItem("refreshToken")
+    );
   }
 
   render() {
     return (
       <div className="login">
-        <strong className="page__message">🔥 {this.state.pageMessage}</strong>
+        <strong className="page__message">🔥 {this.props.message}</strong>
       </div>
     );
   }
 }
 
-export default Me;
+const mapStateToProps = (state) => {
+  return state.MeInfo;
+};
+
+export default connect(mapStateToProps, { handleFetchData })(Me);
